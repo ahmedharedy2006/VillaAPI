@@ -1,6 +1,8 @@
 ﻿    using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using VillaAPI.data;
 using VillaAPI.Models;
+using VillaAPI.Models.DTO;
 
 namespace VillaAPI.Controllers
 {
@@ -9,13 +11,29 @@ namespace VillaAPI.Controllers
     public class VillaController : ControllerBase
     {
         [HttpGet]
-        public IEnumerable<Villa> GetVillas()
+        public ActionResult<IEnumerable<VillaDTO>> GetVillas()
+
         {
-            return new List<Villa>()
+            return Ok(VillaStore.villaList);
+        }
+
+
+        [HttpGet("id")]
+        public ActionResult<VillaDTO> GetVilla(int id)
+
+        {
+            if(id == 0)
             {
-                new Villa() {Id = 1 , Name ="Pool View"},
-                new Villa() {Id = 2 , Name="Beach View"}
-            };
+                return BadRequest();
+            }
+
+            var villa = VillaStore.villaList.FirstOrDefault(u => u.Id == id);
+
+            if(villa == null)
+            {
+                return NotFound();
+            }
+            return Ok(villa);
         }
     }
 }
