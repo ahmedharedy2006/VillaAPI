@@ -1,6 +1,6 @@
 ﻿namespace VillaAPI.Models.DTO
 {
-    public class VillaDTO
+    public class VillaCreateDTO
     {
         public int Id { get; set; }
 
