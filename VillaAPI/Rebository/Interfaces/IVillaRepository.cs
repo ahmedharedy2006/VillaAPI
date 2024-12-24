@@ -3,12 +3,8 @@ using VillaAPI.Models;
 
 namespace VillaAPI.Rebository.Interfaces
 {
-    public interface IVillaRepository
+    public interface IVillaRepository : IRepository<Villa>
     {
-        
-
-        Task<Villa> UpdateAsync(Villa entity);
-
-        
+        Task<Villa> UpdateAsync(Villa entity);   
     }
 }
