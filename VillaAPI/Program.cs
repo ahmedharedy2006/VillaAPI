@@ -1,12 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using VillaAPI;
 using VillaAPI.data;
+using VillaAPI.Rebository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers().AddNewtonsoftJson();
+builder.Services.AddScoped<IVillaRepository , VillaRepository>();
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
