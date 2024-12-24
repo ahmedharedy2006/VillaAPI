@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using VillaAPI;
 using VillaAPI.data;
 using VillaAPI.Rebository;
+using VillaAPI.Rebository.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
