@@ -148,5 +148,32 @@ namespace VillaAPI.Controllers
 
             return NoContent();
         }
+        [HttpPost]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(400)]
+
+        public ActionResult<VillaDTO> CreateVilla([FromBody]VillaDTO villadto)
+        {
+            if (villadto == null)
+            {
+                return BadRequest();
+            }
+
+            if(villadto.Id > 0)
+            {
+                return BadRequest();
+            }
+
+            if (VillaStore.villaList.FirstOrDefault(u => u.Name.ToLower() == villadto.Name.ToLower())!=null)
+            {
+                ModelState.AddModelError("Custom Error", "Villa Name Is Already Taken !");
+                return BadRequest(ModelState);
+            }
+            villadto.Id = VillaStore.villaList.OrderByDescending(u=>u.Id).FirstOrDefault().Id+1;
+            VillaStore.villaList.Add(villadto);
+            return CreatedAtRoute("GetVilla",new {id = villadto.Id},villadto);
+
+        }
     }
 }
