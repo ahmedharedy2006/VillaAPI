@@ -22,6 +22,35 @@ namespace VillaAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("VillaAPI.Models.Auth.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("VillaAPI.Models.Villa", b =>
                 {
                     b.Property<int>("Id")
@@ -59,7 +88,7 @@ namespace VillaAPI.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2024, 12, 12, 2, 51, 38, 971, DateTimeKind.Local).AddTicks(1673),
+                            CreatedDate = new DateTime(2024, 12, 28, 1, 15, 18, 42, DateTimeKind.Local).AddTicks(9333),
                             Description = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
                             ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa3.jpg",
                             Name = "Royal Villa",
@@ -69,7 +98,7 @@ namespace VillaAPI.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2024, 12, 12, 2, 51, 38, 971, DateTimeKind.Local).AddTicks(1722),
+                            CreatedDate = new DateTime(2024, 12, 28, 1, 15, 18, 42, DateTimeKind.Local).AddTicks(9379),
                             Description = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
                             ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa1.jpg",
                             Name = "Premium Pool Villa",
@@ -79,7 +108,7 @@ namespace VillaAPI.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2024, 12, 12, 2, 51, 38, 971, DateTimeKind.Local).AddTicks(1725),
+                            CreatedDate = new DateTime(2024, 12, 28, 1, 15, 18, 42, DateTimeKind.Local).AddTicks(9381),
                             Description = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
                             ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa4.jpg",
                             Name = "Luxury Pool Villa",
@@ -89,7 +118,7 @@ namespace VillaAPI.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedDate = new DateTime(2024, 12, 12, 2, 51, 38, 971, DateTimeKind.Local).AddTicks(1727),
+                            CreatedDate = new DateTime(2024, 12, 28, 1, 15, 18, 42, DateTimeKind.Local).AddTicks(9383),
                             Description = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
                             ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa5.jpg",
                             Name = "Diamond Villa",

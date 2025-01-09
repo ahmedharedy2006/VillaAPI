@@ -1,0 +1,31 @@
+﻿@model List<webApp.Models.DTO.VillaDTO>
+<br />
+
+<div class="container p-4 border">
+    <div class="row pb-2">
+        <div class="col">
+            <h1>Villas</h1>
+        </div>
+        <div class="col text-end pt-1">
+            <a class="btn btn-outline-primary">Add Villa</a>
+        </div>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var villa in Model)
+            {
+                <tr>
+                    <td>@villa.Id</td>
+                    <td>@villa.Name</td>
+                </tr>
+            }
+    </table>
+
+</div>

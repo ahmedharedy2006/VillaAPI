@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -9,24 +10,26 @@ using VillaAPI.Models;
 using VillaAPI.Models.DTO;
 using VillaAPI.Rebository.Interfaces;
 
-namespace VillaAPI.Controllers
+namespace VillaAPI.Controllers.V1
 {
-    [Route("api/")]
+    [Route("api/v{version:apiVersion}/villa")]
     [ApiController]
+    [ApiVersion("1.0")]
     public class VillaController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly IVillaRepository _villaRepo;
         public APIResponse _response;
-        public VillaController(IVillaRepository villaRepo , IMapper mapper) 
+        public VillaController(IVillaRepository villaRepo, IMapper mapper)
         {
             _villaRepo = villaRepo;
             _mapper = mapper;
-            this._response = new();
+            _response = new();
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [MapToApiVersion("1.0")]
         public async Task<ActionResult<APIResponse>> GetVillas()
         {
             try
@@ -43,7 +46,7 @@ namespace VillaAPI.Controllers
                 return Ok(_response);
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _response.IsSuccess = false;
 
@@ -54,14 +57,19 @@ namespace VillaAPI.Controllers
             }
 
             return _response;
-    
+
         }
 
+        
 
-        [HttpGet("{id:int}" , Name ="GetVilla")]
+        
+        [HttpGet("{id:int}", Name = "GetVilla")]
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+
 
         public async Task<ActionResult<APIResponse>> GetVilla(int id)
         {
@@ -110,6 +118,7 @@ namespace VillaAPI.Controllers
             return _response;
 
         }
+
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -223,7 +232,7 @@ namespace VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-        public async Task<ActionResult<APIResponse>> UpdateVilla(int id , [FromBody] VillaUpdateDTO villaupdateDTO)
+        public async Task<ActionResult<APIResponse>> UpdateVilla(int id, [FromBody] VillaUpdateDTO villaupdateDTO)
         {
             try
             {
@@ -263,9 +272,9 @@ namespace VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-        public async Task<IActionResult> UpdatePartialVilla(int id , JsonPatchDocument<VillaUpdateDTO> patchDTO)
+        public async Task<IActionResult> UpdatePartialVilla(int id, JsonPatchDocument<VillaUpdateDTO> patchDTO)
         {
-            if(patchDTO == null || id == 0)
+            if (patchDTO == null || id == 0)
             {
                 return BadRequest();
             }
@@ -274,20 +283,20 @@ namespace VillaAPI.Controllers
 
             VillaUpdateDTO villaDTO = _mapper.Map<VillaUpdateDTO>(villa);
 
-            if(villa == null)
+            if (villa == null)
             {
                 return BadRequest();
             }
 
-            patchDTO.ApplyTo(villaDTO , ModelState);
+            patchDTO.ApplyTo(villaDTO, ModelState);
 
             Villa model = _mapper.Map<Villa>(villaDTO);
 
             _villaRepo.UpdateAsync(model);
 
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                return BadRequest();    
+                return BadRequest();
             }
 
             return NoContent();
